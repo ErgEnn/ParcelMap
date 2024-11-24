@@ -17,6 +17,8 @@
     <script src="dpd.js"></script>
     <script src="omniva.js"></script>
     <script src="itella.js"></script>
+    <script src="venipak.js"></script>
+    <script src="unisend.js"></script>
     <script>
 
         const coordinates = [
@@ -50,6 +52,18 @@
         itella.forEach(coord => {
             const marker = L.marker([coord.latitude, coord.longitude]).addTo(map);
             marker.bindPopup(`<b>Itella ${coord.name}</b>`);
+        });
+
+        // https://venipak.com/ee/pakiautomaadid/ js: venipak_points
+        venipak.forEach(coord => {
+            const marker = L.marker([coord.lat, coord.lng]).addTo(map);
+            marker.bindPopup(`<b>Venipak ${coord.display_name}</b>`);
+        });
+
+        // https://api-esavitarna.post.lt/terminal/list?size=999
+        unisend.forEach(coord => {
+            const marker = L.marker([coord.latitude, coord.longitude]).addTo(map);
+            marker.bindPopup(`<b>Unisend ${coord.name}</b>`);
         });
     </script>
 </body>
