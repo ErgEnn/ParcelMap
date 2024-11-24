@@ -1,4 +1,4 @@
-const vanipak = [
+const venipak = [
   {
     "id": 3348,
     "name": "Coop Venipak pakiautomaat",
