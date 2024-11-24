@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parcel boxes</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="dpd.js"></script>
+    <script src="omniva.js"></script>
+    <script src="itella.js"></script>
+    <script>
+
+        const coordinates = [
+            { lat: 51.505, lng: -0.09, label: "Marker 1" },
+            { lat: 48.8566, lng: 2.3522, label: "Marker 2" },
+            { lat: 40.7128, lng: -74.006, label: "Marker 3" }
+        ];
+
+        
+        const map = L.map('map').setView([58, 24], 8);
+
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // https://dpdbaltics.com/PickupParcelShopData.json
+        dpd.forEach(coord => {
+            const marker = L.marker([coord.latitude, coord.longitude]).addTo(map);
+            marker.bindPopup(`<b>DPD ${coord.companyName}</b>`);
+        });
+        
+        // https://www.omniva.ee/locations.json
+        omniva.forEach(coord => {
+            const marker = L.marker([coord.Y_COORDINATE, coord.X_COORDINATE]).addTo(map);
+            marker.bindPopup(`<b>Omniva ${coord.NAME}</b>`);
+        });
+        
+        // https://itella.ee/eraklient/pakiautomaatide-asukohad/
+        // POST https://itella.ee/wp-admin/admin-ajax.php nonce=&lang=et&action=ld_get_baltics_lockers
+        itella.forEach(coord => {
+            const marker = L.marker([coord.latitude, coord.longitude]).addTo(map);
+            marker.bindPopup(`<b>Itella ${coord.name}</b>`);
+        });
+    </script>
+</body>
+</html>
